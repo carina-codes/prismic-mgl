@@ -1,0 +1,46 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Nostrud incididunt pariatur consectetur voluptate ex deserunt dolore tempor reprehenderit enim officia do anim enim. Anim velit laboris ad do labore."
+						}
+					}
+				]
+			},
+			"product": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"skateboard",
+								{
+									"key": "08e20d2e-974a-4d90-9b8b-606f366791d0",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "DocumentLink",
+										"id": "mock_document_id"
+									}
+								}
+							]
+						]
+					}
+				]
+			},
+			"heading": {
+				"__TYPE__": "FieldContent",
+				"value": "table",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]
