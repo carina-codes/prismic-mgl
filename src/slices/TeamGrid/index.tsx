@@ -31,7 +31,7 @@ const TeamGrid = async ({ slice }: TeamGridProps) => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {skaters.map((skater, index) => (
             <React.Fragment key={index}>
-              {skater.data.first_name && <Skater index={index} skater={skater}/>}
+              {skater.data.first_name && <Skater skater={skater}/>}
             </React.Fragment>
           ))}
         </div>
