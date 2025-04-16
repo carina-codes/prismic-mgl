@@ -5,9 +5,7 @@ import { createClient } from '@/prismicio';
 import { Logo } from './Logo';
 import { PrismicNextLink } from '@prismicio/next';
 
-type Props = {}
-
-export async function Footer({}: Props) {
+export async function Footer() {
   const client = createClient();
   const settings = await client.getSingle("settings");
 

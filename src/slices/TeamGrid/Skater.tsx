@@ -4,10 +4,9 @@ import { PrismicNextImage } from '@prismicio/next';
 
 type Props = {
   skater: Content.SkaterDocument;
-  index: number;
 }
 
-export function Skater({skater, index}: Props) {
+export function Skater({skater}: Props) {
   return (
     <div className="skater">
       <PrismicNextImage field={skater.data.photo} alt="" className="w-100"/>

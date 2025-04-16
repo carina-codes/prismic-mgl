@@ -31,7 +31,6 @@ export default async function Page() {
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient();
   const page = await client.getSingle("homepage").catch(() => notFound());
-  const slices = bundleTextAndImageSlices(page.data.slices);
 
   return {
     title: page.data.meta_title,
@@ -45,31 +44,34 @@ export async function generateMetadata(): Promise<Metadata> {
 type TextAndImageBundleSlice = {
   id: string;
   slice_type: "text_and_image_bundle";
-  slices: Content.TextAndImageSlice[]
-}
+  slices: Content.TextAndImageSlice[];
+};
 
-function bundleTextAndImageSlices(slices: Content.HomepageDocumentDataSlicesSlice[]){
-  const res:(
-    | Content.HomepageDocumentDataSlicesSlice 
+function bundleTextAndImageSlices(
+  slices: Content.HomepageDocumentDataSlicesSlice[]
+) {
+  const res: (
+    | Content.HomepageDocumentDataSlicesSlice
     | TextAndImageBundleSlice
-  )[] = []
+  )[] = [];
 
   for (const slice of slices) {
-    if (slice.slice_type !== "text_and_image"){
+    if (slice.slice_type !== "text_and_image") {
       res.push(slice);
       continue;
     }
 
     const bundle = res.at(-1);
-    if (bundle?.slice_type === "text_and_image_bundle"){
+    if (bundle?.slice_type === "text_and_image_bundle") {
       bundle.slices.push(slice);
     } else {
       res.push({
         id: `${slice.id}-bundle`,
         slice_type: "text_and_image_bundle",
-        slices: [slice]
-      })
+        slices: [slice],
+      });
     }
   }
+
   return res;
 }
