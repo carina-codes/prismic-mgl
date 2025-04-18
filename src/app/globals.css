@@ -257,6 +257,14 @@ section .button-link-style {
 }
 
 
+/* pages */
+
+.page-style {
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+
 /* --------------------------- responsive --------------------------- */
 
 /* Mobile */
