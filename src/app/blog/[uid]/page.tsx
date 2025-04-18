@@ -1,9 +1,6 @@
 import { createClient } from '@/prismicio'
 import { notFound } from 'next/navigation'
 import { PrismicRichText } from '@prismicio/react'
-import { Content } from '@prismicio/client'
-
-type BlogPost = Content.BlogPostDocument
 
 type Params = {
   params: { uid: string }
