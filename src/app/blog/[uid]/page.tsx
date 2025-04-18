@@ -1,20 +1,15 @@
-import { FC } from "react"
 import { notFound } from "next/navigation"
 import { createClient } from "@/prismicio"
 import { Content } from "@prismicio/client"
 import { PrismicRichText } from "@prismicio/react"
 
-/**
- * Props for the BlogPostPage.
- */
-export type BlogPostPageProps = {
-  params: { uid: string }
+type BlogPostPageProps = {
+  params: {
+    uid: string
+  }
 }
 
-/**
- * Page component for a single blog post.
- */
-const BlogPostPage: FC<BlogPostPageProps> = async ({ params }) => {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const client = createClient()
 
   const post: Content.BlogPostDocument | null = await client
@@ -38,5 +33,3 @@ const BlogPostPage: FC<BlogPostPageProps> = async ({ params }) => {
     </main>
   )
 }
-
-export default BlogPostPage
