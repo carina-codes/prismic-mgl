@@ -1,21 +1,26 @@
-import { createClient } from '@/prismicio'
-import { notFound } from 'next/navigation'
-import { PrismicRichText } from '@prismicio/react'
-import { Content } from '@prismicio/client'
+import { FC } from "react"
+import { notFound } from "next/navigation"
+import { createClient } from "@/prismicio"
+import { Content } from "@prismicio/client"
+import { PrismicRichText } from "@prismicio/react"
 
-type BlogPost = Content.BlogPostDocument
+/**
+ * Props for the BlogPostPage.
+ */
+export type BlogPostPageProps = {
+  params: { uid: string }
+}
 
-export default async function BlogPostPage({
-    params: { uid },
-  }: {
-    params: { uid: string }
-  }) {
+/**
+ * Page component for a single blog post.
+ */
+const BlogPostPage: FC<BlogPostPageProps> = async ({ params }) => {
   const client = createClient()
 
-  // Fetch the blog post by UID
-  const post: BlogPost | null = await client.getByUID('blog_post', uid).catch(() => null)
+  const post: Content.BlogPostDocument | null = await client
+    .getByUID("blog_post", params.uid)
+    .catch(() => null)
 
-  // If the post doesn't exist, show a 404 page
   if (!post) {
     notFound()
   }
@@ -24,7 +29,7 @@ export default async function BlogPostPage({
     <main className="page-style">
       <section className="s-30">
         <div className="container">
-          <article>
+          <article data-uid={params.uid}>
             <PrismicRichText field={post.data.title} />
             <PrismicRichText field={post.data.content} />
           </article>
@@ -33,3 +38,5 @@ export default async function BlogPostPage({
     </main>
   )
 }
+
+export default BlogPostPage
