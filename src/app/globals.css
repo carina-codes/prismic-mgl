@@ -264,6 +264,14 @@ section .button-link-style {
   padding-bottom: 100px;
 }
 
+article {
+  padding-top: 25px;
+}
+
+article p {
+  padding-bottom: 16px;
+}
+
 
 /* --------------------------- responsive --------------------------- */
 
