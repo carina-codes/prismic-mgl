@@ -1,7 +1,6 @@
 import { createClient } from '@/prismicio';
 import { PrismicRichText } from '@prismicio/react';
 import { notFound } from 'next/navigation';
-import { GetStaticPropsContext } from 'next';
 
 type Params = {
   uid: string;
@@ -9,9 +8,8 @@ type Params = {
 
 export default async function BlogPost({ params }: { params: Params }) {
   const { uid } = params;
-  
+
   if (!uid) {
-    // If there's no uid, return a 404
     notFound();
     return null;
   }
@@ -41,38 +39,13 @@ export default async function BlogPost({ params }: { params: Params }) {
   );
 }
 
+// This function generates the static paths for the blog post UIDs
 export async function generateStaticParams() {
   const client = createClient();
   const posts = await client.getAllByType('blog_post');
 
+  // Return the params for each blog post
   return posts.map((post) => ({
-    uid: post.uid, // generates static paths for each post's UID
+    uid: post.uid,
   }));
-}
-
-// Adjusting the typing of GetStaticPropsContext for the params
-export async function getStaticProps({ params }: GetStaticPropsContext<Params>) {
-  const { uid } = params || {};
-
-  if (!uid) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const client = createClient();
-  const post = await client.getByUID('blog_post', uid).catch(() => null);
-
-  if (!post) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      params,
-      post, // pass post data to the component
-    },
-  };
 }
