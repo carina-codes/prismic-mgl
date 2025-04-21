@@ -1,4 +1,4 @@
-import { PrismicRichText } from '@prismicio/react';
+import { PrismicText } from '@prismicio/react';
 import { createClient } from '@/prismicio';
 import Link from 'next/link';
 
@@ -26,7 +26,9 @@ export default async function Page() {
               return (
                 <article key={post.id}>
                   <Link href={`/blog/${uid}`}>
-                    <PrismicRichText field={title} />
+                    <h2>
+                      <PrismicText field={title} />
+                    </h2>
                   </Link>
                 </article>
               );
