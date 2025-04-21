@@ -7,30 +7,26 @@ export default async function BlogPost({ params }: { params: { uid: string } }) 
   try {
     const post = await client.getByUID('blog_post', params.uid);
 
-    // Ensure that the data has the expected fields before rendering
-    const title = post?.data?.title || 'Untitled';
-    const content = post?.data?.content || 'No content available.';
-
     return (
       <main className="page-style">
         <header>
           <div className="container">
-            <PrismicRichText field={title} />
+            <PrismicRichText field={post.data.title} />
           </div>
         </header>
 
         <article>
           <div className="container">
-          <PrismicRichText field={post.data.content} />
+            <PrismicRichText field={post.data.content} />
           </div>
         </article>
       </main>
     );
   } catch (error) {
-    console.error("Error fetching the blog post:", error);
+    console.error('Error fetching the blog post:', error);
     return (
       <div className="container">
-        <h1>Sorry, this post couldn't be found.</h1>
+        <h1>Sorry, this post couldn&apos;t be found.</h1>
       </div>
     );
   }
