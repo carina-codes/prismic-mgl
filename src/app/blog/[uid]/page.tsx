@@ -2,11 +2,12 @@ import { createClient } from '@/prismicio';
 import { PrismicRichText } from '@prismicio/react';
 import { notFound } from 'next/navigation';
 
-export default async function BlogPost({ params }: { params: { uid: string } }) {
-  const { uid } = params;
+export default async function BlogPost({}) {
+  // Get the dynamic segment directly from the URL
+  const uid = window.location.pathname.split('/')[2];  // Assuming the structure is /blog/[uid]
 
   if (!uid) {
-    notFound();
+    notFound();  // Show a 404 page if no UID is present
     return null;
   }
 
@@ -14,7 +15,7 @@ export default async function BlogPost({ params }: { params: { uid: string } }) 
   const post = await client.getByUID('blog_post', uid).catch(() => null);
 
   if (!post) {
-    notFound();
+    notFound();  // Show a 404 page if the post is not found
     return null;
   }
 
@@ -41,6 +42,6 @@ export async function generateStaticParams() {
   const posts = await client.getAllByType('blog_post');
 
   return posts.map((post) => ({
-    uid: post.uid,
+    uid: post.uid,  // Return the `uid` for each blog post
   }));
 }
