@@ -2,13 +2,13 @@ import { createClient } from '@/prismicio';
 import { PrismicRichText } from '@prismicio/react';
 import { notFound } from 'next/navigation';
 
-type BlogPostPageProps = {
-  params: { uid: string };
+type Params = {
+  uid: string;
 };
 
-export default async function BlogPost({ params }: BlogPostPageProps) {
+export default async function BlogPost({ params }: { params: Params }) {
   const client = createClient();
-  const post = await client.getByUID('blog_post', params.uid);
+  const post = await client.getByUID('blog_post', params.uid).catch(() => null);
 
   if (!post) {
     notFound();
