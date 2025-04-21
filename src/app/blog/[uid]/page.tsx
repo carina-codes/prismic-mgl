@@ -2,11 +2,11 @@ import { createClient } from '@/prismicio';
 import { PrismicRichText } from '@prismicio/react';
 import { notFound } from 'next/navigation';
 
-export default async function BlogPost({
-  params,
-}: {
+type BlogPostPageProps = {
   params: { uid: string };
-}) {
+};
+
+export default async function BlogPost({ params }: BlogPostPageProps) {
   const client = createClient();
   const post = await client.getByUID('blog_post', params.uid);
 
@@ -29,4 +29,13 @@ export default async function BlogPost({
       </article>
     </main>
   );
+}
+
+export async function generateStaticParams() {
+  const client = createClient();
+  const posts = await client.getAllByType('blog_post');
+
+  return posts.map((post) => ({
+    uid: post.uid,
+  }));
 }
