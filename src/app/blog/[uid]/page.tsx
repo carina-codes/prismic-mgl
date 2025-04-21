@@ -2,11 +2,7 @@ import { createClient } from '@/prismicio';
 import { PrismicRichText } from '@prismicio/react';
 import { notFound } from 'next/navigation';
 
-type Params = {
-  uid: string;
-};
-
-export default async function BlogPost({ params }: { params: Params }) {
+export default async function BlogPost({ params }: { params: { uid: string } }) {
   const { uid } = params;
 
   if (!uid) {
@@ -44,7 +40,6 @@ export async function generateStaticParams() {
   const client = createClient();
   const posts = await client.getAllByType('blog_post');
 
-  // Return the params for each blog post
   return posts.map((post) => ({
     uid: post.uid,
   }));
