@@ -9,7 +9,7 @@ export default async function BlogPage() {
   const page = await client.getSingle('blog').catch(() => null);
   const posts = await client.getAllByType('post', {
     orderings: {
-      field: 'document.first_publication_date',
+      field: 'my.post.published_date',
       direction: 'desc',
     },
   });
@@ -27,17 +27,44 @@ export default async function BlogPage() {
       </section>
 
       <article>
-        <div className="container space-y-4">
-          {posts.map((post) => (
-            <div key={post.id}>
-              <Link
-                href={`/blog/${post.uid}`}
-                className="text-blue-600 hover:underline text-xl"
-              >
-                {post.data.title}
-              </Link>
-            </div>
-          ))}
+        <div className="container space-y-8">
+          {posts.map((post) => {
+            const formattedDate = post.data.published_date
+              ? new Date(post.data.published_date).toLocaleDateString(undefined, {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })
+              : null;
+
+            return (
+              <div key={post.id} className="border-b pb-6">
+                <Link
+                  href={`/blog/${post.uid}`}
+                  className="text-2xl font-semibold text-blue-600 hover:underline"
+                >
+                  {post.data.title}
+                </Link>
+
+                {formattedDate && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Published on {formattedDate}
+                  </p>
+                )}
+
+                {post.data.excerpt && (
+                  <p className="mt-2 text-gray-700">{post.data.excerpt}</p>
+                )}
+
+                <Link
+                  href={`/blog/${post.uid}`}
+                  className="inline-block mt-2 text-sm text-blue-500 hover:underline"
+                >
+                  Read more →
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </article>
     </main>
