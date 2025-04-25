@@ -44,29 +44,33 @@ const ContentIndex = ({ slice }: ContentIndexProps) => {
         <div className="ft-blog-row">
           {items.map((item) => (
             <div key={item.id} className="ft-blog p-4">
-              <a
-                href={`/blog/${item.uid}`}
-                className="text-blue-600 text-lg font-semibold hover:underline"
-              >
-                {item.data.title}
-              </a>
-              <p className="mt-2 text-sm text-gray-500">
-                {item.data.published_date &&
-                  new Date(item.data.published_date).toLocaleDateString(undefined, {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-              </p>
-              <p className="text-gray-300 mt-2 mb-6 line-clamp-3">
-                {item.data.excerpt}
-              </p>
-              <a
-                href={`/blog/${item.uid}`}
-                className="text-blue-600 text-lg font-semibold hover:underline"
-              >
-                Read more →
-              </a>
+              <div>
+                <a
+                  href={`/blog/${item.uid}`}
+                  className="text-blue-600 text-lg font-semibold hover:underline"
+                >
+                  {item.data.title}
+                </a>
+                <p className="mt-2 text-sm text-gray-500">
+                  {item.data.published_date &&
+                    new Date(item.data.published_date).toLocaleDateString(undefined, {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                </p>
+                <p className="text-gray-300 mt-2 mb-6 line-clamp-3">
+                  {item.data.excerpt}
+                </p>
+              </div>
+              <div>
+                <a
+                  href={`/blog/${item.uid}`}
+                  className="text-blue-600 text-lg font-semibold hover:underline"
+                >
+                  Read more →
+                </a>
+              </div>
             </div>
           ))}
         </div>
