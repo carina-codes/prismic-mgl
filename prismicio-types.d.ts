@@ -43,48 +43,46 @@ interface AboutDocumentData {
 export type AboutDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<AboutDocumentData>, "about", Lang>;
 
+type BlogDocumentDataSlicesSlice = ContentIndexSlice;
+
 /**
- * Content for Blog Post documents
+ * Content for Blog documents
  */
-interface BlogPostDocumentData {
+interface BlogDocumentData {
   /**
-   * Title field in *Blog Post*
+   * Title field in *Blog*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: blog_post.title
+   * - **API ID Path**: blog.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  title: prismic.RichTextField;
+  title: prismic.KeyTextField;
 
   /**
-   * Content field in *Blog Post*
+   * Slice Zone field in *Blog*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: blog_post.content
+   * - **API ID Path**: blog.slices[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  content: prismic.RichTextField;
+  slices: prismic.SliceZone<BlogDocumentDataSlicesSlice>;
 }
 
 /**
- * Blog Post document from Prismic
+ * Blog document from Prismic
  *
- * - **API ID**: `blog_post`
- * - **Repeatable**: `true`
+ * - **API ID**: `blog`
+ * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BlogPostDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<BlogPostDocumentData>,
-    "blog_post",
-    Lang
-  >;
+export type BlogDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<BlogDocumentData>, "blog", Lang>;
 
 type HomepageDocumentDataSlicesSlice =
   | TeamGridSlice
@@ -155,6 +153,56 @@ export type HomepageDocument<Lang extends string = string> =
     "homepage",
     Lang
   >;
+
+/**
+ * Content for Post documents
+ */
+interface PostDocumentData {
+  /**
+   * Title field in *Post*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: post.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Published Date field in *Post*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: *None*
+   * - **API ID Path**: post.published_date
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#date
+   */
+  published_date: prismic.DateField;
+
+  /**
+   * Content field in *Post*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: post.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+}
+
+/**
+ * Post document from Prismic
+ *
+ * - **API ID**: `post`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PostDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PostDocumentData>, "post", Lang>;
 
 /**
  * Item in *Settings → Navigation*
@@ -376,11 +424,77 @@ export type SkaterDocument<Lang extends string = string> =
 
 export type AllDocumentTypes =
   | AboutDocument
-  | BlogPostDocument
+  | BlogDocument
   | HomepageDocument
+  | PostDocument
   | SettingsDocument
   | SkateboardDocument
   | SkaterDocument;
+
+/**
+ * Primary content in *ContentIndex → Default → Primary*
+ */
+export interface ContentIndexSliceDefaultPrimary {
+  /**
+   * Title field in *ContentIndex → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Content Type field in *ContentIndex → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.default.primary.content_type
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  content_type: prismic.KeyTextField;
+
+  /**
+   * Items to Show field in *ContentIndex → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.default.primary.items_to_show
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  items_to_show: prismic.NumberField;
+}
+
+/**
+ * Default variation for ContentIndex Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContentIndexSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ContentIndexSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ContentIndex*
+ */
+type ContentIndexSliceVariation = ContentIndexSliceDefault;
+
+/**
+ * ContentIndex Shared Slice
+ *
+ * - **API ID**: `content_index`
+ * - **Description**: ContentIndex
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContentIndexSlice = prismic.SharedSlice<
+  "content_index",
+  ContentIndexSliceVariation
+>;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -815,11 +929,14 @@ declare module "@prismicio/client" {
     export type {
       AboutDocument,
       AboutDocumentData,
-      BlogPostDocument,
-      BlogPostDocumentData,
+      BlogDocument,
+      BlogDocumentData,
+      BlogDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      PostDocument,
+      PostDocumentData,
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
@@ -828,6 +945,10 @@ declare module "@prismicio/client" {
       SkaterDocument,
       SkaterDocumentData,
       AllDocumentTypes,
+      ContentIndexSlice,
+      ContentIndexSliceDefaultPrimary,
+      ContentIndexSliceVariation,
+      ContentIndexSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,

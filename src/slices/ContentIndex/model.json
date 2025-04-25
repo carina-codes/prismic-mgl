@@ -1,0 +1,40 @@
+{
+  "id": "content_index",
+  "type": "SharedSlice",
+  "name": "ContentIndex",
+  "description": "ContentIndex",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "content_type": {
+          "type": "Text",
+          "config": {
+            "label": "Content Type",
+            "placeholder": ""
+          }
+        },
+        "items_to_show": {
+          "type": "Number",
+          "config": {
+            "label": "Items to Show",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

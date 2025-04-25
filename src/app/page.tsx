@@ -28,18 +28,39 @@ export default async function Page() {
   );
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const client = createClient();
-  const page = await client.getSingle("homepage").catch(() => notFound());
+// export async function generateMetadata(): Promise<Metadata> {
+//   const client = createClient();
+//   const page = await client.getSingle("homepage").catch(() => notFound());
 
-  return {
-    title: page.data.meta_title,
-    description: page.data.meta_description,
-    openGraph: {
-      images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
-    },
-  };
-}
+//   return {
+//     title: page.data.meta_title,
+//     description: page.data.meta_description,
+//     openGraph: {
+//       images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
+//     },
+//   };
+// }
+
+// export async function generateMetadata(): Promise<Metadata> {
+//   const client = createClient();
+//   const page = await client.getSingle("homepage").catch(() => null);
+
+//   if (!page) {
+//     return {
+//       title: 'Not found',
+//       description: '',
+//     };
+//   }
+
+//   return {
+//     title: page.data.meta_title,
+//     description: page.data.meta_description,
+//     openGraph: {
+//       images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
+//     },
+//   };
+// }
+
 
 type TextAndImageBundleSlice = {
   id: string;

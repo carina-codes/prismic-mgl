@@ -1,0 +1,24 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "upward",
+				"type": "Text"
+			},
+			"content_type": {
+				"__TYPE__": "FieldContent",
+				"value": "is",
+				"type": "Text"
+			},
+			"items_to_show": {
+				"__TYPE__": "FieldContent",
+				"value": "93",
+				"type": "Number"
+			}
+		},
+		"items": []
+	}
+]
