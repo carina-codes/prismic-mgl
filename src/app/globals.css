@@ -273,6 +273,22 @@ article p {
 }
 
 
+.ft-blog-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-top: 25px;
+}
+
+.ft-blog-row .ft-blog a {
+  color: var(--white);
+}
+
+.ft-blog {
+  background-color: #1f1f1f;
+}
+
+
 /* --------------------------- responsive --------------------------- */
 
 /* Mobile */
@@ -290,14 +306,14 @@ article p {
   .mobile-menu-btn{
     display: inline-block;
   }
-  .products {
+  .products, .ft-blog-row {
     grid-template-columns: repeat(1, 1fr);
   }
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 991px) {
-  .products {
+  .products, .ft-blog-row {
     grid-template-columns: repeat(2, 1fr);
   }
 }

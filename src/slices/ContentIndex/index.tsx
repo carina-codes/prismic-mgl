@@ -16,15 +16,15 @@ const ContentIndex = ({ slice }: ContentIndexProps) => {
       const contentType = slice.primary.content_type;
 
       if (contentType === "post") {
-        const results = await client.getAllByType("post", {
-          pageSize: slice.primary.items_to_show || 3,
+        const response = await client.getByType("post", {
+          pageSize: Number(slice.primary.items_to_show) || 3,
           orderings: {
             field: "document.first_publication_date",
             direction: "desc",
           },
         });
 
-        setItems(results as Content.PostDocument[]);
+        setItems(response.results as Content.PostDocument[]);
       } else {
         console.warn(`Unsupported content_type: ${contentType}`);
       }
@@ -34,17 +34,51 @@ const ContentIndex = ({ slice }: ContentIndexProps) => {
   }, [slice]);
 
   return (
-    <section className="my-8">
-      <h2 className="text-2xl font-semibold mb-4">{slice.primary.title}</h2>
-      <ul className="space-y-2">
-        {items.map((item) => (
-          <li key={item.id}>
-            <a href={`/blog/${item.uid}`} className="text-blue-600 hover:underline">
-              {item.data.title}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <section className="s-02 s-black ft-blogs">
+      <div className="container">
+        <div className="heading flex flex-col items-center gap-8 text-center">
+          <h2 className="text-2xl font-semibold mb-4">
+            {slice.primary.title}
+            </h2>
+        </div>
+        <div className="ft-blog-row">
+          {items.map((item) => (
+            <div key={item.id} className="ft-blog p-4">
+              <a
+                href={`/blog/${item.uid}`}
+                className="text-blue-600 text-lg font-semibold hover:underline"
+              >
+                {item.data.title}
+              </a>
+              <p className="mt-2 text-sm text-gray-500">
+                {item.data.published_date &&
+                  new Date(item.data.published_date).toLocaleDateString(undefined, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+              </p>
+              <p className="text-gray-300 mt-2 mb-6 line-clamp-3">
+                {item.data.excerpt}
+              </p>
+              <a
+                href={`/blog/${item.uid}`}
+                className="text-blue-600 text-lg font-semibold hover:underline"
+              >
+                Read more →
+              </a>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col items-center mt-6 text-center">
+          <a
+            href={`/blog/`}
+            className="button-link-style"
+          >
+            Read the blog →
+          </a>
+        </div>
+      </div>
     </section>
   );
 };
